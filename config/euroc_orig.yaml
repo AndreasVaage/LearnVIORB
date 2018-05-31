@@ -1,7 +1,7 @@
 %YAML:1.0
 
 # 1: realtime, 0: non-realtime
-test.RealTime: 1
+test.RealTime: 0
 # Time for visual-inertial initialization
 test.VINSInitTime: 15.0
 
@@ -35,30 +35,23 @@ bagfile: "/home/user/Downloads/MH_01_easy.bag"
 
 #######################################
 
-#imutopic: "/imu0"
-#imagetopic: "/cam0/image_raw"
-#imu.rate: 200
+imutopic: "/imu0"
+imagetopic: "/cam0/image_raw"
 
+imu.rate: 200
 
-#imutopic: "/android/imu"
-#imagetopic: "/usb_cam/image_raw"
-#imu.rate: 100
-
-imutopic: "/android/imu"
-imagetopic: "/usb_cam/image_raw"
-imu.rate: 100
 
 # Timestamp shift. Timage = Timu + image_delay
-Camera.delaytoimu: -166237.116584
+Camera.delaytoimu: 0
 
 # acc=acc*9.8, if below is 1
 IMU.multiplyG: 0
 
 # camera-imu frame transformation, Pi = Tic * Pc
 Camera.Tbc:
-  [0.5690737823320058, 0.7962456035499973, -0.2052997055274297, -0.04941009504016815,
-  -0.7330274602954537, 0.604365140214999, 0.31211138996471344, -0.018022330250450396,
-  0.37259330739446417, -0.027124087453942763, 0.9275982487934359, 0.19079788397663805,
+ [0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975,
+  0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768,
+  -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949,
   0.0, 0.0, 0.0, 1.0]
 
 # Local Window size
@@ -69,18 +62,18 @@ LocalMapping.LocalWindowSize: 20
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 259.483451
-Camera.fy: 155.091008
-Camera.cx: 258.251474
-Camera.cy: 115.463782
+Camera.fx: 458.654
+Camera.fy: 457.296
+Camera.cx: 367.215
+Camera.cy: 248.375
 
-Camera.k1: 0.150831
-Camera.k2: -0.242838
-Camera.p1: -0.003988
-Camera.p2: -0.008693
+Camera.k1: -0.28340811
+Camera.k2: 0.07395907
+Camera.p1: 0.00019359
+Camera.p2: 0.00001762 
 
-Camera.width: 320
-Camera.height: 240
+Camera.width: 752
+Camera.height: 480
 
 # Camera frames per second 
 Camera.fps: 20.0
@@ -123,7 +116,7 @@ ORBextractor.minThFAST: 7
 Viewer.KeyFrameSize: 0.05
 Viewer.KeyFrameLineWidth: 1
 Viewer.GraphLineWidth: 0.9
-Viewer.PointSize: 2
+Viewer.PointSize:2
 Viewer.CameraSize: 0.08
 Viewer.CameraLineWidth: 3
 Viewer.ViewpointX: 0

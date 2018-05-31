@@ -30,6 +30,8 @@ public:
     std::string _imageTopic;
     std::string _imuTopic;
 
+    int _imuRate;
+
     static std::string getTmpFilePath();
     static std::string _tmpFilePath;
 

@@ -40,6 +40,7 @@ ConfigParam::ConfigParam(std::string configfile)
     std::cout<<"local window size: "<<_LocalWindowSize<<std::endl;
 
     _ImageDelayToIMU = fSettings["Camera.delaytoimu"];
+    _imuRate = fSettings["imu.rate"];
     std::cout<<"timestamp image delay to imu: "<<_ImageDelayToIMU<<std::endl;
 
     {

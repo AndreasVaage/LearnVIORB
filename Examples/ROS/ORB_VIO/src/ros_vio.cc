@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     if(ORB_SLAM2::ConfigParam::GetRealTimeFlag())
     {
         imagesub = nh.subscribe(config._imageTopic, /*200*/ 2, &ORBVIO::MsgSynchronizer::imageCallback, &msgsync);
-        imusub = nh.subscribe(config._imuTopic, 200, &ORBVIO::MsgSynchronizer::imuCallback, &msgsync);
+        imusub = nh.subscribe(config._imuTopic, config._imuRate, &ORBVIO::MsgSynchronizer::imuCallback, &msgsync);
     }
     sensor_msgs::ImageConstPtr imageMsg;
     std::vector<sensor_msgs::ImuConstPtr> vimuMsg;
