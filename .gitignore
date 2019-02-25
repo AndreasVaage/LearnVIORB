@@ -21,7 +21,7 @@ Examples/Stereo/stereo_euroc
 Examples/Stereo/stereo_kitti
 
 Examples/ROS/ORB_VIO/VIO
-
+Examples/ROS/ORB_VIO/cmake-build-debug
 
 \.idea/
 
