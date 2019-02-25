@@ -3,8 +3,8 @@ echo "Configuring and building Thirdparty/DBoW2 ..."
 cd Thirdparty/DBoW2
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make -j1
 
 cd ../../g2o
 
@@ -12,8 +12,8 @@ echo "Configuring and building Thirdparty/g2o ..."
 
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make -j1
 
 cd ../../../
 
@@ -27,8 +27,8 @@ echo "Configuring and building ORB_SLAM2 ..."
 
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make -j1
 cd ..
 
 echo "Build ROS node ..."
@@ -36,8 +36,8 @@ echo "Build ROS node ..."
 cd Examples/ROS/ORB_VIO
 mkdir build
 cd build
-cmake .. -DROS_BUILD_TYPE=Release
-make -j
+cmake .. -DROS_BUILD_TYPE=Debug
+make -j1
 cd ../../../../
 
 echo ""
