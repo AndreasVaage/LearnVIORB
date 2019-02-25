@@ -57,12 +57,16 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "Mono");
     ros::start();
 
+
     if(argc != 3)
     {
         cerr << endl << "Usage: rosrun ORB_SLAM2 Mono path_to_vocabulary path_to_settings" << endl;
         ros::shutdown();
         return 1;
     }
+
+    std::cout<<"Waitintg so you can attacht debugger\n";
+    sleep(60);
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::MONOCULAR,true);
@@ -106,6 +110,7 @@ int main(int argc, char **argv)
     topics.push_back(imutopic);
 
     rosbag::View view(bag, rosbag::TopicQuery(topics));
+
     //while(ros::ok())
     BOOST_FOREACH(rosbag::MessageInstance const m, view)
     {
