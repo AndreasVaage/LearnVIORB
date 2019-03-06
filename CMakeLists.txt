@@ -32,6 +32,7 @@ find_package(OpenCV 3 REQUIRED)
 find_package(Eigen3 3 REQUIRED)
 find_package(Pangolin REQUIRED)
 find_package(Cholmod REQUIRED)
+find_package(G2O REQUIRED)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
@@ -40,6 +41,7 @@ ${PROJECT_SOURCE_DIR}/src
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
 ${CHOLMOD_INCLUDE_DIR}
+${G20_INCLUDE_DIR}
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -86,12 +88,18 @@ src/IMU/g2otypes.h
 src/IMU/g2otypes.cpp
 )
 
+set(G2O_LIBS
+${G2O_CORE_LIBRARY}
+${G2O_TYPES_SBA}
+${G2O_TYPES_SIM3}
+)
+
 target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
+${G2O_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
-${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 cholmod
 ${CHOLMOD_LIBRARIES}
 ${BLAS_LIBRARIES}

@@ -209,10 +209,10 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     //Initialize the Tracking thread
     //(it will live in the main thread of execution, the one that called this constructor)
     mpTracker = new Tracking(this, mpVocabulary, mpFrameDrawer, mpMapDrawer,
-                             mpMap, mpKeyFrameDatabase, strSettingsFile, mSensor,&config);
+                             mpMap, mpKeyFrameDatabase, strSettingsFile, mSensor, &config);
 
     //Initialize the Local Mapping thread and launch
-    mpLocalMapper = new LocalMapping(mpMap, mSensor==MONOCULAR,&config);
+    mpLocalMapper = new LocalMapping(mpMap, mSensor==MONOCULAR, &config);
     mptLocalMapping = new thread(&ORB_SLAM2::LocalMapping::Run,mpLocalMapper);
 
     //Initialize the Loop Closing thread and launch
@@ -261,7 +261,7 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
             // Wait until Local Mapping has effectively stopped
             while(!mpLocalMapper->isStopped())
             {
-                usleep(1000);
+                std::this_thread::sleep_for(std::chrono::microseconds(1000));
             }
 
             mpTracker->InformOnlyTracking(true);
@@ -306,7 +306,7 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
             // Wait until Local Mapping has effectively stopped
             while(!mpLocalMapper->isStopped())
             {
-                usleep(1000);
+                std::this_thread::sleep_for(std::chrono::microseconds(1000));
             }
 
             mpTracker->InformOnlyTracking(true);
@@ -351,7 +351,7 @@ cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
             // Wait until Local Mapping has effectively stopped
             while(!mpLocalMapper->isStopped())
             {
-                usleep(1000);
+                std::this_thread::sleep_for(std::chrono::microseconds(1000));
             }
 
             mpTracker->InformOnlyTracking(true);
@@ -406,7 +406,7 @@ void System::Shutdown()
     while(!mpLocalMapper->isFinished() || !mpLoopCloser->isFinished()  ||
           !mpViewer->isFinished()      || mpLoopCloser->isRunningGBA())
     {
-        usleep(5000);
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
 
     pangolin::BindToContext("ORB-SLAM2: Map Viewer");

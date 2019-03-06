@@ -6,14 +6,14 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug
 make -j1
 
-cd ../../g2o
+#cd ../../g2o
 
-echo "Configuring and building Thirdparty/g2o ..."
+#echo "Configuring and building Thirdparty/g2o ..."
 
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Debug
-make -j1
+#mkdir build
+#cd build
+#cmake .. -DCMAKE_BUILD_TYPE=Debug
+#make -j1
 
 cd ../../../
 

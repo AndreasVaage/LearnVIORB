@@ -54,7 +54,7 @@ void LoopClosing::SetMapUpdateFlagInTracking(bool bflag)
 LoopClosing::LoopClosing(Map *pMap, KeyFrameDatabase *pDB, ORBVocabulary *pVoc, const bool bFixScale, ConfigParam* pParams):
     mbResetRequested(false), mbFinishRequested(false), mbFinished(true), mpMap(pMap),
     mpKeyFrameDB(pDB), mpORBVocabulary(pVoc), mpMatchedKF(NULL), mLastLoopKFid(0), mbRunningGBA(false), mbFinishedGBA(true),
-    mbStopGBA(false), mpThreadGBA(NULL), mbFixScale(bFixScale), mnFullBAIdx(0)
+    mbStopGBA(false), mpThreadGBA(NULL), mbFixScale(bFixScale), mnFullBAIdx(false)
 {
     mpParams = pParams;
 
@@ -102,7 +102,7 @@ void LoopClosing::Run()
         if(CheckFinish())
             break;
 
-        usleep(5000);
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
 
     SetFinish();
@@ -448,7 +448,7 @@ void LoopClosing::CorrectLoop()
     // Wait until Local Mapping has effectively stopped
     while(!mpLocalMapper->isStopped())
     {
-        usleep(1000);
+        std::this_thread::sleep_for(std::chrono::microseconds(1000));
     }
 
     // Ensure current keyframe is updated
@@ -653,7 +653,7 @@ void LoopClosing::RequestReset()
         if(!mbResetRequested)
             break;
         }
-        usleep(5000);
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
 }
 
@@ -695,7 +695,7 @@ void LoopClosing::RunGlobalBundleAdjustment(unsigned long nLoopKF)
 
             while(!mpLocalMapper->isStopped() && !mpLocalMapper->isFinished())
             {
-                usleep(1000);
+                std::this_thread::sleep_for(std::chrono::microseconds(1000));
             }
 
             cv::Mat cvTbc = ConfigParam::GetMatTbc();

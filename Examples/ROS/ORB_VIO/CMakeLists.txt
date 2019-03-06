@@ -33,6 +33,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../../../cmake_modules)
 find_package(OpenCV 3 REQUIRED)
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
+find_package(G2O REQUIRED)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
@@ -41,14 +42,21 @@ ${PROJECT_SOURCE_DIR}/../../../src
 ${PROJECT_SOURCE_DIR}/../../../include
 ${Pangolin_INCLUDE_DIRS}
 ${EIGEN3_INCLUDE_DIR}
+${G20_INCLUDE_DIR}
+)
+
+set(G2O_LIBS
+${G2O_CORE_LIBRARY}
+${G2O_TYPES_SBA}
+${G2O_TYPES_SIM3}
 )
 
 set(LIBS 
 ${OpenCV_LIBS} 
 ${EIGEN3_LIBS}
+${G2O_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/../../../Thirdparty/DBoW2/lib/libDBoW2.so
-${PROJECT_SOURCE_DIR}/../../../Thirdparty/g2o/lib/libg2o.so
 ${PROJECT_SOURCE_DIR}/../../../lib/libORB_SLAM2.so
 -lboost_system
 )
