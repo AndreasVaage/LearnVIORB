@@ -63,6 +63,12 @@ void System::SaveKeyFrameTrajectoryNavState(const string &filename)
 
     ofstream f;
     f.open(filename.c_str());
+    if(!f.is_open())
+    {
+        cerr<<"file open error in SaveKeyFrameTrajectoryNavState"<<endl;
+        f.close();
+        return;
+    }
     f << fixed;
 
     for(size_t i=0; i<vpKFs.size(); i++)
