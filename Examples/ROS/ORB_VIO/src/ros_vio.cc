@@ -42,6 +42,8 @@
 
 using namespace std;
 
+using namespace std::chrono;
+
 class ImageGrabber
 {
 public:
@@ -199,6 +201,8 @@ int main(int argc, char **argv)
     else
     {
         ROS_WARN("Run realtime");
+        double totalDuration = 0;
+        int nRuns = 0;
         while(ros::ok())
         {
             bool bdata = msgsync.getRecentMsgs(imageMsg,vimuMsg);
@@ -250,7 +254,18 @@ int main(int argc, char **argv)
                     if(imageMsg->header.stamp.toSec() < startT+config._testDiscardTime)
                         im = cv::Mat::zeros(im.rows,im.cols,im.type());
                 }
+                high_resolution_clock::time_point t1 = high_resolution_clock::now();
                 SLAM.TrackMonoVI(im, vimuData, imageMsg->header.stamp.toSec() - imageMsgDelaySec);
+                high_resolution_clock::time_point t2 = high_resolution_clock::now();
+                totalDuration += duration_cast<microseconds>( t2 - t1 ).count();
+                nRuns++;
+                if (nRuns >= 10)
+                {
+                  ROS_INFO("Mean trackingtime: %f microseconds", totalDuration/nRuns);
+                  totalDuration = 0;
+                  nRuns = 0;
+                }
+
                 //SLAM.TrackMonoVI(cv_ptr->image, vimuData, imageMsg->header.stamp.toSec() - imageMsgDelaySec);
                 //cv::imshow("image",cv_ptr->image);
 

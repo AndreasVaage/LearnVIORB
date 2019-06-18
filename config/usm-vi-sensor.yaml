@@ -31,28 +31,40 @@ test.DiscardTime: 0
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V1_03_difficult.bag"
 #bagfile: "/media/jp/JingpangPassport/3dataset/EuRoC-VIO/un_restamped/V2_03_difficult.bag"
 
-bagfile: "/media/andreas/SLAM_data/EuRoC/MH_01_easy.bag"
+bagfile: "/media/andreas/SLAM_data/vi-sensor/1juni/fast_roll1_2019-06-01-15-30-12.bag"
 
 #######################################
 
-imutopic: "/imu0"
-imagetopic: "/cam0/image_raw"
+imutopic: "/imu/data_raw"
+imagetopic: "/camera//image_raw"
 
-imu.rate: 200
+imu.rate: 125
 
 
 # Timestamp shift. Timage = Timu + image_delay
-Camera.delaytoimu: 0
+Camera.delaytoimu: 0.0 #+0.0055192074635
 
 # acc=acc*9.8, if below is 1
 IMU.multiplyG: 0
 
 # camera-imu frame transformation, Pi = Tic * Pc
 Camera.Tbc:
- [0.0148655429818, -0.999880929698, 0.00414029679422, -0.0216401454975,
-  0.999557249008, 0.0149672133247, 0.025715529948, -0.064676986768,
-  -0.0257744366974, 0.00375618835797, 0.999660727178, 0.00981073058949,
-  0.0, 0.0, 0.0, 1.0]
+  #[-0.04242735,  0.01079783,  0.9990412 ,  0.05146359, # cam 1
+  # -0.99825126, -0.04165532, -0.04194358,  0.09523097,
+  #  0.04116248, -0.99907369,  0.01254627, -0.03300705,
+  #  0.        ,  0.        ,  0.        ,  1.        ]
+   [0.05201467,  0.01070069,  0.99858899,  0.05528241, # Dry calibrated cam0
+   -0.99746703, -0.04802428,  0.05247085, -0.12541329,
+    0.04851799, -0.99878885,  0.00817562, -0.0375398 ,
+    0.        ,  0.        ,  0.        ,  1.        ]
+   #[-0.04242735, -0.99825126,  0.04116248,  0.09860656, # underwater cam0
+   #  0.01079783, -0.04165532, -0.99907369, -0.0295653 ,
+   #  0.9990412 , -0.04194358,  0.01254627, -0.0470058 ,
+   #  0.        ,  0.        ,  0.        ,  1.        ]
+  #[0.04476325, -0.99676791,  0.06670820, -0.12720235,   # underwater inverted cam0
+  # 0.00497799, -0.06655175, -0.99777056, -0.04048783,
+  # 0.99898522,  0.04499553,  0.00198283, -0.05016331,
+  # 0.        ,  0.        ,  0.        ,  1.        ]
 
 # Local Window size
 LocalMapping.LocalWindowSize: 20
@@ -61,31 +73,66 @@ LocalMapping.LocalWindowSize: 20
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------
 
-# Camera calibration and distortion parameters (OpenCV) 
-Camera.fx: 458.654
-Camera.fy: 457.296
-Camera.cx: 367.215
-Camera.cy: 248.375
+# Camera calibration and distortion parameters (OpenCV)
+#Camera.fx: 173.41289 # right
+#Camera.fy: 173.04743
+#Camera.cx: 316.87481
+#Camera.cy: 252.29994
+#
+#Camera.k1: 0.024357245891300634
+#Camera.k2: -0.007723382250546576
+#Camera.p1: -0.0038659547024494562
+#Camera.p2: -0.0004634054290663293
 
-Camera.k1: -0.28340811
-Camera.k2: 0.07395907
-Camera.p1: 0.00019359
-Camera.p2: 0.00001762 
+#Camera.fx: 176.17289 #left
+#Camera.fy: 175.95344
+#Camera.cx: 315.19013
+#Camera.cy: 244.11609
+#
+#Camera.k1: 0.03151196639318718
+#Camera.k2: -0.00954356480000671
+#Camera.p1: -0.0000181362839438
+#Camera.p2: -0.0003251651547740253
 
-Camera.width: 752
-Camera.height: 480
+#Camera.fx: 175.90507804  # left directyl from half res
+#Camera.fy: 175.63934753
+#Camera.cx: 315.01106465
+#Camera.cy: 244.21604109
+#
+#Camera.k1: 0.03034115
+#Camera.k2: -0.00931381
+#Camera.p1: 0.0002472
+#Camera.p2: -0.00022218
+#
+#
+#Camera.width: 644
+#Camera.height: 482
+
+Camera.fx: 176.063165
+Camera.fy: 176.063165
+Camera.cx: 287.5
+Camera.cy: 216.5
+
+Camera.k1: 0
+Camera.k2: 0
+Camera.p1: 0
+Camera.p2: 0
+Camera.k3: 0.0
+
+Camera.width: 575
+Camera.height: 433
 
 # Camera frames per second 
-Camera.fps: 20.0
+Camera.fps: 20.83
 
 # IR projector baseline times fx (aprox.)
-Camera.bf: 40.0
+Camera.bf: 38.7
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
 
 # Close/Far threshold. Baseline times.
-ThDepth: 40.0
+ThDepth: 10.0
 
 # Deptmap values factor
 DepthMapFactor: 1.0
@@ -95,7 +142,7 @@ DepthMapFactor: 1.0
 #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
-ORBextractor.nFeatures: 1000
+ORBextractor.nFeatures: 3000
 
 # ORB Extractor: Scale factor between levels in the scale pyramid 
 ORBextractor.scaleFactor: 1.2
@@ -107,16 +154,17 @@ ORBextractor.nLevels: 8
 # Image is divided in a grid. At each cell FAST are extracted imposing a minimum response.
 # Firstly we impose iniThFAST. If no corners are detected we impose a lower value minThFAST
 # You can lower these values if your images have low contrast   
-ORBextractor.iniThFAST: 20
-ORBextractor.minThFAST: 7
-
+ORBextractor.iniThFAST: 15 # pool
+ORBextractor.minThFAST: 15
+#ORBextractor.iniThFAST: 10 # sea
+#ORBextractor.minThFAST: 5
 #--------------------------------------------------------------------------------------------
 # Viewer Parameters
 #--------------------------------------------------------------------------------------------
 Viewer.KeyFrameSize: 0.05
 Viewer.KeyFrameLineWidth: 1
 Viewer.GraphLineWidth: 0.9
-Viewer.PointSize:2
+Viewer.PointSize: 2
 Viewer.CameraSize: 0.08
 Viewer.CameraLineWidth: 3
 Viewer.ViewpointX: 0
